@@ -1,0 +1,10 @@
+require('dotenv').config();
+const fs = require('node:fs');
+const path = require('node:path');
+const { createDatabase } = require('./config/database');
+const { createApp } = require('./app');
+const dbPath = process.env.DB_PATH || path.join(__dirname, '../data/patients.db');
+fs.mkdirSync(path.dirname(dbPath), { recursive: true });
+const db = createDatabase(dbPath);
+const port = Number(process.env.PORT) || 5000;
+createApp(db).listen(port, () => console.log(`EPIA API listening on http://localhost:${port}`));
